@@ -63,11 +63,12 @@
                       Style="{StaticResource MaterialDesignDataGrid}"
                       MouseDoubleClick="Grid_DoubleClick">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="70"/>
-                    <DataGridTextColumn Header="Логін" Binding="{Binding Login}" Width="*"/>
+                    <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="60"/>
+                    <DataGridTextColumn Header="Логін" Binding="{Binding Login}" Width="200"/>
+                    <DataGridTextColumn Header="Пароль" Binding="{Binding PasswordHash}" Width="200"/>
                     <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="120"/>
-                    <DataGridCheckBoxColumn Header="Активний" Binding="{Binding IsActive}" Width="90"/>
-                    <DataGridTextColumn Header="Оновлено" Binding="{Binding UpdatedAt, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Width="150"/>
+                    <DataGridCheckBoxColumn Header="Активний" Binding="{Binding IsActive}" Width="100"/>
+                    <DataGridTextColumn Header="Оновлено" Binding="{Binding UpdatedAt, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </materialDesign:Card>

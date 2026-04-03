@@ -7,7 +7,7 @@ namespace SolarWarehouseApp.Views
         public string UserLogin { get; private set; } = "";
         public string UserPassword { get; private set; } = "";
         public string UserRole { get; private set; } = "Operator";
-        public bool IsActive { get; private set; } = true;
+        public new bool IsActive { get; private set; } = true;
 
         private readonly bool _isEditMode;
 

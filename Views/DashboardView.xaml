@@ -22,8 +22,8 @@
                 </StackPanel>
 
                 <!-- Solar logo decoration -->
-                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <Ellipse Width="60" Height="60">
+                <Grid Grid.Column="1" Width="60" Height="60" VerticalAlignment="Center">
+                    <Ellipse>
                         <Ellipse.Fill>
                             <RadialGradientBrush>
                                 <GradientStop Color="#FF6D00" Offset="0"/>
@@ -32,9 +32,10 @@
                         </Ellipse.Fill>
                     </Ellipse>
                     <materialDesign:PackIcon Kind="WeatherSunny" Width="36" Height="36"
-                                             Foreground="White" HorizontalAlignment="Center"
-                                             Margin="0,-48,0,0"/>
-                </StackPanel>
+                                             Foreground="White"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
+                </Grid>
             </Grid>
 
             <!-- Stats cards row -->

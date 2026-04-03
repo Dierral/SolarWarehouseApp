@@ -73,27 +73,31 @@
         </Grid.ColumnDefinitions>
 
         <!-- ========== SIDEBAR ========== -->
-        <Border x:Name="Sidebar" Grid.Column="0" Width="64"
+        <Border x:Name="Sidebar" Grid.Column="0" Width="68"
                 Background="#111827" Panel.ZIndex="10"
                 MouseEnter="Sidebar_MouseEnter" MouseLeave="Sidebar_MouseLeave">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="12" Opacity="0.4" ShadowDepth="2" Direction="0"/>
             </Border.Effect>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel x:Name="SidebarPanel">
                     <!-- Logo area -->
                     <Border Height="70" Background="#0F172A" Margin="0,0,0,8">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
-                            <Ellipse Width="36" Height="36">
-                                <Ellipse.Fill>
-                                    <RadialGradientBrush>
-                                        <GradientStop Color="#FF6D00" Offset="0"/>
-                                        <GradientStop Color="#FFD600" Offset="1"/>
-                                    </RadialGradientBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <materialDesign:PackIcon Kind="WeatherSunny" Width="22" Height="22"
-                                                     Foreground="White" Margin="-29,0,0,0"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,0,0">
+                            <Grid Width="36" Height="36">
+                                <Ellipse>
+                                    <Ellipse.Fill>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="#FF6D00" Offset="0"/>
+                                            <GradientStop Color="#FFD600" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <materialDesign:PackIcon Kind="WeatherSunny" Width="22" Height="22"
+                                                         Foreground="White"
+                                                         HorizontalAlignment="Center"
+                                                         VerticalAlignment="Center"/>
+                            </Grid>
                             <TextBlock x:Name="LogoText" Text="Solar WH" FontWeight="Bold"
                                        FontSize="13" Foreground="#FF6D00"
                                        VerticalAlignment="Center" Margin="8,0,0,0"
@@ -104,7 +108,7 @@
                     <!-- Dashboard -->
                     <Button x:Name="BtnDashboard" Style="{StaticResource SidebarButtonActiveStyle}"
                             Click="Navigate_Dashboard">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="ViewDashboard" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtDashboard" Text="Дашборд" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -114,7 +118,7 @@
                     <!-- Supplies -->
                     <Button x:Name="BtnSupplies" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Supplies">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="TruckDelivery" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtSupplies" Text="Поставки" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -124,7 +128,7 @@
                     <!-- Warehouse Items -->
                     <Button x:Name="BtnWarehouse" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Warehouse">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="Warehouse" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtWarehouse" Text="Товари" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -134,7 +138,7 @@
                     <!-- Equipment Types -->
                     <Button x:Name="BtnEquipment" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Equipment">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="SolarPanel" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtEquipment" Text="Типи обладнання" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -144,7 +148,7 @@
                     <!-- Manufacturers -->
                     <Button x:Name="BtnManufacturers" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Manufacturers">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="Factory" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtManufacturers" Text="Виробники" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -154,7 +158,7 @@
                     <!-- Storage Locations -->
                     <Button x:Name="BtnStorage" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Storage">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="MapMarker" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtStorage" Text="Місця зберігання" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -172,7 +176,7 @@
                     <!-- Users (Admin) -->
                     <Button x:Name="BtnUsers" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Users" Visibility="Collapsed">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="AccountMultiple" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtUsers" Text="Користувачі" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -182,7 +186,7 @@
                     <!-- SQL Console (Admin) -->
                     <Button x:Name="BtnSql" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Sql" Visibility="Collapsed">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="Console" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtSql" Text="SQL-консоль" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -192,7 +196,7 @@
                     <!-- DB Structure (Admin) -->
                     <Button x:Name="BtnDbStructure" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_DbStructure" Visibility="Collapsed">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="DatabaseOutline" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtDbStructure" Text="Структура БД" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -202,7 +206,7 @@
                     <!-- Backup/Restore (Admin) -->
                     <Button x:Name="BtnBackup" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Backup" Visibility="Collapsed">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="DatabaseSync" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtBackup" Text="Backup/Restore" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -212,7 +216,7 @@
                     <!-- Logs (Admin) -->
                     <Button x:Name="BtnLogs" Style="{StaticResource SidebarButtonStyle}"
                             Click="Navigate_Logs" Visibility="Collapsed">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="FormatListBulleted" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtLogs" Text="Логи" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -225,7 +229,7 @@
                     <!-- Theme toggle -->
                     <Button x:Name="BtnTheme" Style="{StaticResource SidebarButtonStyle}"
                             Click="BtnTheme_Click" ToolTip="Перемкнути тему">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon x:Name="ThemeIcon" Kind="WeatherNight" Width="22" Height="22" VerticalAlignment="Center"/>
                             <TextBlock x:Name="TxtTheme" Text="Темна тема" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Visibility="Collapsed" Opacity="0"/>
@@ -235,7 +239,7 @@
                     <!-- Logout -->
                     <Button x:Name="BtnLogout" Style="{StaticResource SidebarButtonStyle}"
                             Click="BtnLogout_Click">
-                        <StackPanel Orientation="Horizontal" Margin="16,0,12,0">
+                        <StackPanel Orientation="Horizontal" Margin="23,0,12,0">
                             <materialDesign:PackIcon Kind="Logout" Width="22" Height="22" VerticalAlignment="Center" Foreground="#EF5350"/>
                             <TextBlock x:Name="TxtLogout" Text="Вийти" VerticalAlignment="Center"
                                        Margin="12,0,0,0" Foreground="#EF5350"

@@ -23,7 +23,7 @@ namespace SolarWarehouseApp.Views
 
         private void LoadData()
         {
-            var result = _dbService.ExecuteQuery("SELECT Id, Login, Role, IsActive, UpdatedAt FROM AppUsers ORDER BY Login");
+            var result = _dbService.ExecuteQuery("SELECT Id, Login, PasswordHash, Role, IsActive, UpdatedAt FROM AppUsers ORDER BY Login");
             Grid.ItemsSource = result?.DefaultView;
         }
 

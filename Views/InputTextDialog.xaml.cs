@@ -14,13 +14,11 @@ namespace SolarWarehouseApp.Views
         public string Value2 { get; private set; } = "";
         public string Value3 { get; private set; } = "";
         public string Value4 { get; private set; } = "";
-        public bool IsActive { get; private set; } = true;
+        public new bool IsActive { get; private set; } = true;
         public string SelectedRole { get; private set; } = "Operator";
 
-        private readonly string _label1;
-        private readonly string _label2;
-        private readonly string _label3;
-        private readonly string _label4;
+        private readonly string _label1 = "";
+        private readonly string _label2 = "";
         private readonly bool _showIsActive;
         private readonly bool _showRole;
         private readonly bool _field1ReadOnly;
@@ -30,7 +28,6 @@ namespace SolarWarehouseApp.Views
         {
             InitializeComponent();
             _label1 = label1; _label2 = label2;
-            _label3 = ""; _label4 = "";
 
             Setup(title, label1, label2, "", "", default1, default2, "", "");
         }
