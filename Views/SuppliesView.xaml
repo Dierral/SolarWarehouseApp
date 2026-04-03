@@ -1,0 +1,162 @@
+<Page x:Class="SolarWarehouseApp.Views.SuppliesView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="{DynamicResource MaterialDesign.Brush.Background}"
+      FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Filter panel -->
+        <materialDesign:Card Grid.Row="0" Margin="12,12,12,6" UniformCornerRadius="10"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <StackPanel Margin="16,12">
+
+                <!-- Row 1: Filters -->
+                <WrapPanel Margin="0,0,0,8">
+
+                    <TextBox x:Name="ArticleFilter"
+                             materialDesign:HintAssist.Hint="Артикул"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Width="140" Margin="0,0,8,4" FontSize="13"
+                             TextChanged="Filter_Changed"/>
+
+                    <ComboBox x:Name="TypeFilter"
+                              materialDesign:HintAssist.Hint="Тип поставки"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              Width="160" Margin="0,0,8,4" FontSize="13"
+                              SelectionChanged="Filter_Changed"/>
+
+                    <ComboBox x:Name="EquipmentTypeFilter"
+                              materialDesign:HintAssist.Hint="Тип обладнання"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              Width="180" Margin="0,0,8,4" FontSize="13"
+                              SelectionChanged="Filter_Changed"/>
+
+                    <ComboBox x:Name="ManufacturerFilter"
+                              materialDesign:HintAssist.Hint="Виробник"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              Width="160" Margin="0,0,8,4" FontSize="13"
+                              SelectionChanged="Filter_Changed"/>
+
+                    <ComboBox x:Name="CountryFilter"
+                              materialDesign:HintAssist.Hint="Країна"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              Width="130" Margin="0,0,8,4" FontSize="13"
+                              SelectionChanged="Filter_Changed"/>
+
+                    <ComboBox x:Name="LocationFilter"
+                              materialDesign:HintAssist.Hint="Місце зберігання"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              Width="180" Margin="0,0,8,4" FontSize="13"
+                              SelectionChanged="Filter_Changed"/>
+
+                    <ComboBox x:Name="AddedByFilter"
+                              materialDesign:HintAssist.Hint="Хто додав"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              Width="150" Margin="0,0,8,4" FontSize="13"
+                              SelectionChanged="Filter_Changed"/>
+                </WrapPanel>
+
+                <!-- Row 2: Date range + action buttons -->
+                <WrapPanel>
+                    <TextBlock Text="Від:" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="13" Foreground="#9E9E9E"/>
+                    <DatePicker x:Name="DateFrom"
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                Width="140" Margin="0,0,10,4" FontSize="13"
+                                SelectedDateChanged="Filter_Changed"/>
+
+                    <TextBlock Text="До:" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="13" Foreground="#9E9E9E"/>
+                    <DatePicker x:Name="DateTo"
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                Width="140" Margin="0,0,16,4" FontSize="13"
+                                SelectedDateChanged="Filter_Changed"/>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="#9E9E9E" Click="ResetFilters_Click" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FilterRemove" VerticalAlignment="Center"/>
+                            <TextBlock Text="Скинути" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,0,8,0"/>
+
+                    <Button Background="#FF6D00" Foreground="White"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            Click="AddSupply_Click" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center"/>
+                            <TextBlock Text="Додати" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            Click="EditSupply_Click" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center"/>
+                            <TextBlock Text="Редагувати" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Foreground="#EF5350" BorderBrush="#EF5350"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            Click="DeleteSupply_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                            <TextBlock Text="Видалити" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </WrapPanel>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <!-- DataGrid -->
+        <materialDesign:Card Grid.Row="1" Margin="12,0,12,12" UniformCornerRadius="10"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <DataGrid x:Name="SuppliesGrid"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      SelectionMode="Single"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      RowHeaderWidth="0"
+                      Style="{StaticResource MaterialDesignDataGrid}"
+                      MouseDoubleClick="SuppliesGrid_DoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="60"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding SupplyDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
+                    <DataGridTextColumn Header="Артикул" Binding="{Binding Article}" Width="130"/>
+                    <DataGridTextColumn Header="Тип обладнання" Binding="{Binding EquipmentType}" Width="*"/>
+                    <DataGridTextColumn Header="Виробник" Binding="{Binding Manufacturer}" Width="130"/>
+                    <DataGridTextColumn Header="Країна" Binding="{Binding Country}" Width="90"/>
+                    <DataGridTextColumn Header="Кіл-ть" Binding="{Binding Quantity}" Width="75">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOutbound}" Value="True">
+                                        <Setter Property="Foreground" Value="#EF5350"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Од." Binding="{Binding Unit}" Width="55"/>
+                    <DataGridTextColumn Header="Тип поставки" Binding="{Binding SupplyType}" Width="120"/>
+                    <DataGridTextColumn Header="Постачальник" Binding="{Binding SupplierName}" Width="130"/>
+                    <DataGridTextColumn Header="Місце" Binding="{Binding StorageLocation}" Width="120"/>
+                    <DataGridTextColumn Header="Хто додав" Binding="{Binding CreatedBy}" Width="110"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+    </Grid>
+</Page>

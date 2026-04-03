@@ -26,7 +26,8 @@ namespace SolarWarehouseApp.Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при виконанні запиту:\n{ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.MessageBox.Show($"Помилка при виконанні запиту:\n{ex.Message}", "Помилка",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return null;
             }
         }
@@ -45,7 +46,8 @@ namespace SolarWarehouseApp.Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при виконанні запиту:\n{ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.MessageBox.Show($"Помилка при виконанні запиту:\n{ex.Message}", "Помилка",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return null;
             }
         }
@@ -63,7 +65,8 @@ namespace SolarWarehouseApp.Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при виконанні команди:\n{ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.MessageBox.Show($"Помилка при виконанні команди:\n{ex.Message}", "Помилка",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return false;
             }
         }
@@ -82,7 +85,8 @@ namespace SolarWarehouseApp.Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при виконанні команди:\n{ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.MessageBox.Show($"Помилка при виконанні команди:\n{ex.Message}", "Помилка",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return false;
             }
         }
@@ -233,7 +237,6 @@ namespace SolarWarehouseApp.Data
                 using SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@userId", userId);
                 command.Parameters.AddWithValue("@logFileName", logFileName);
-                // CreatedAt і ClosedAt ставляться на момент завершення сесії
                 command.Parameters.AddWithValue("@createdAt", DateTime.Now.AddHours(-1));
                 command.Parameters.AddWithValue("@closedAt", DateTime.Now);
                 command.Parameters.AddWithValue("@logFileContent", fileContent);

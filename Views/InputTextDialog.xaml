@@ -1,0 +1,67 @@
+<Window x:Class="SolarWarehouseApp.Views.InputTextDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Введення"
+        Width="460" Height="Auto" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource MaterialDesign.Brush.Background}"
+        TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+        FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <StackPanel Margin="24,20">
+        <TextBlock x:Name="TitleText" FontSize="16" FontWeight="Bold"
+                   Foreground="#FF6D00" Margin="0,0,0,16"/>
+
+        <TextBox x:Name="Field1Box"
+                 materialDesign:HintAssist.Hint=""
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Margin="0,0,0,12" FontSize="13"
+                 KeyDown="Field_KeyDown"/>
+
+        <TextBox x:Name="Field2Box"
+                 materialDesign:HintAssist.Hint=""
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Margin="0,0,0,12" FontSize="13"
+                 Visibility="Collapsed"
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 MinHeight="60" MaxHeight="120"
+                 KeyDown="Field_KeyDown"/>
+
+        <TextBox x:Name="Field3Box"
+                 materialDesign:HintAssist.Hint=""
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Margin="0,0,0,12" FontSize="13"
+                 Visibility="Collapsed"
+                 KeyDown="Field_KeyDown"/>
+
+        <TextBox x:Name="Field4Box"
+                 materialDesign:HintAssist.Hint=""
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Margin="0,0,0,12" FontSize="13"
+                 Visibility="Collapsed"
+                 KeyDown="Field_KeyDown"/>
+
+        <CheckBox x:Name="IsActiveCheck" Content="Активний" IsChecked="True"
+                  Visibility="Collapsed" Margin="0,0,0,12"/>
+
+        <ComboBox x:Name="RoleCombo"
+                  materialDesign:HintAssist.Hint="Роль"
+                  Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                  Visibility="Collapsed" Margin="0,0,0,12" FontSize="13"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                    Foreground="#9E9E9E" Click="Cancel_Click" Margin="0,0,8,0">
+                Скасувати
+            </Button>
+            <Button Background="#FF6D00" Foreground="White"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    materialDesign:ButtonAssist.CornerRadius="6"
+                    Click="Ok_Click">
+                ОК
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</Window>

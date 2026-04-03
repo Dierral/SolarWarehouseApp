@@ -1,41 +1,51 @@
+using System.Windows;
+using MaterialDesignThemes.Wpf;
 using SolarWarehouseApp.Data;
 using SolarWarehouseApp.Helpers;
 using SolarWarehouseApp.Views;
-using System.Windows;
 
-namespace SolarWarehouseApp.Main
+namespace SolarWarehouseApp
 {
-    internal static class Program
+    public partial class App : Application
     {
-        [STAThread]
-        static void Main()
+        private static bool _isDarkTheme = true;
+        public static bool IsDarkTheme => _isDarkTheme;
+
+        protected override void OnStartup(StartupEventArgs e)
         {
-            // Завантаження налаштувань підключення та створення сервісу доступу до БД
+            base.OnStartup(e);
+
+            // Load DB connection and create service
             var config = ConfigHelper.LoadConfig();
             string connectionString = ConfigHelper.BuildConnectionString(config);
             var dbService = new DatabaseService(connectionString);
 
-            // Перевірка, чи існують користувачі в системі
+            // Check if any users exist
             string checkUsersQuery = "SELECT COUNT(*) as cnt FROM AppUsers";
             var result = dbService.ExecuteQuery(checkUsersQuery);
             int userCount = result != null && result.Rows.Count > 0
                 ? int.Parse(result.Rows[0]["cnt"].ToString() ?? "0")
                 : 0;
 
-            var app = new App();
-
             if (userCount == 0)
             {
-                // Якщо користувачів ще немає – відкриваємо форму створення першого адміністратора
                 var firstAdminView = new FirstAdminView(dbService);
-                app.Run(firstAdminView);
+                firstAdminView.Show();
             }
             else
             {
-                // Показуємо форму логіну
                 var loginView = new LoginView(dbService);
-                app.Run(loginView);
+                loginView.Show();
             }
+        }
+
+        public static void ToggleTheme()
+        {
+            _isDarkTheme = !_isDarkTheme;
+            var paletteHelper = new PaletteHelper();
+            var theme = paletteHelper.GetTheme();
+            theme.SetBaseTheme(_isDarkTheme ? BaseTheme.Dark : BaseTheme.Light);
+            paletteHelper.SetTheme(theme);
         }
     }
 }
