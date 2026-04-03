@@ -1,8 +1,0 @@
-D:\Diplom\SolarWarehouseApp\publish\SolarWarehouseApp.pdb
-D:\Diplom\SolarWarehouseApp\publish\D3DCompiler_47_cor3.dll
-D:\Diplom\SolarWarehouseApp\publish\PenImc_cor3.dll
-D:\Diplom\SolarWarehouseApp\publish\PresentationNative_cor3.dll
-D:\Diplom\SolarWarehouseApp\publish\vcruntime140_cor3.dll
-D:\Diplom\SolarWarehouseApp\publish\wpfgfx_cor3.dll
-D:\Diplom\SolarWarehouseApp\publish\Microsoft.Data.SqlClient.SNI.dll
-D:\Diplom\SolarWarehouseApp\publish\SolarWarehouseApp.exe
