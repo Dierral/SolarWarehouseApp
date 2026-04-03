@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Data.SqlClient;
 using SolarWarehouseApp.Data;
-using SolarWarehouseApp.Helpers;
 
 namespace SolarWarehouseApp.Views
 {
@@ -45,15 +45,15 @@ namespace SolarWarehouseApp.Views
                 return;
             }
 
-            // Перевірка облікових даних у таблиці AppUsers
-            string query = $@"
-                SELECT Id, Login, Role 
-                FROM AppUsers 
-                WHERE Login = '{login}' 
-                AND PasswordHash = '{password}'  
-                AND IsActive = 1";
+            // Use parameterized query to prevent SQL injection
+            string query = "SELECT Id, Login, Role FROM AppUsers WHERE Login = @login AND PasswordHash = @password AND IsActive = 1";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@login", login),
+                new SqlParameter("@password", password)
+            };
 
-            var result = _dbService.ExecuteQuery(query);
+            var result = _dbService.ExecuteQueryWithParameters(query, parameters);
 
             if (result != null && result.Rows.Count > 0)
             {
@@ -61,7 +61,6 @@ namespace SolarWarehouseApp.Views
                 LoggedInUserLogin = result.Rows[0]["Login"].ToString();
                 LoggedInUserRole = result.Rows[0]["Role"].ToString();
 
-                // Відкриваємо головне вікно
                 var mainWindow = new MainWindow(_dbService, LoggedInUserLogin, LoggedInUserRole);
                 mainWindow.Show();
                 Close();

@@ -69,17 +69,20 @@ namespace SolarWarehouseApp.Views
         {
             if (e.NewValue is not TreeViewItem item || item.Tag is not string tableName) return;
 
+            // Validate tableName is a known table (from INFORMATION_SCHEMA, sanitize any injection attempt)
+            // tableName is from our own tree built from DB metadata, but we still use parameterized query where possible
             TableNameLabel.Text = tableName;
             _logService?.LogEvent("VIEW_DB_STRUCTURE", tableName, null, "");
 
-            // Load columns
-            string colQuery = $@"
+            // Load columns using parameterized query
+            string colQuery = @"
                 SELECT COLUMN_NAME as 'Поле', DATA_TYPE as 'Тип', IS_NULLABLE as 'Nullable',
                        COLUMN_DEFAULT as 'За замовчуванням', ORDINAL_POSITION as 'Позиція'
                 FROM INFORMATION_SCHEMA.COLUMNS
-                WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = '{tableName}'
+                WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = @tableName
                 ORDER BY ORDINAL_POSITION";
-            ColumnsGrid.ItemsSource = _dbService.ExecuteQuery(colQuery)?.DefaultView;
+            var colParams = new[] { new Microsoft.Data.SqlClient.SqlParameter("@tableName", tableName) };
+            ColumnsGrid.ItemsSource = _dbService.ExecuteQueryWithParameters(colQuery, colParams)?.DefaultView;
 
             // Load primary keys for this table
             var pk = _dbService.GetPrimaryKeys();

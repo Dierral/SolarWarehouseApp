@@ -1,6 +1,7 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Data.SqlClient;
 using SolarWarehouseApp.Data;
 using SolarWarehouseApp.Services;
 
@@ -76,28 +77,50 @@ namespace SolarWarehouseApp.Views
         private void LoadItems()
         {
             var conditions = new List<string>();
+            var parameters = new List<SqlParameter>();
 
             string article = ArticleFilter.Text.Trim();
             if (!string.IsNullOrEmpty(article))
-                conditions.Add($"wi.Article LIKE '%{article}%'");
+            {
+                conditions.Add("wi.Article LIKE @article");
+                parameters.Add(new SqlParameter("@article", "%" + article + "%"));
+            }
 
             if (EquipmentFilter.SelectedItem is FilterItem eq && eq.Id > 0)
-                conditions.Add($"wi.EquipmentTypeId = {eq.Id}");
+            {
+                conditions.Add("wi.EquipmentTypeId = @eqId");
+                parameters.Add(new SqlParameter("@eqId", eq.Id));
+            }
 
             if (ManufacturerFilter.SelectedItem is FilterItem mfr && mfr.Id > 0)
-                conditions.Add($"wi.ManufacturerId = {mfr.Id}");
+            {
+                conditions.Add("wi.ManufacturerId = @mfrId");
+                parameters.Add(new SqlParameter("@mfrId", mfr.Id));
+            }
 
             if (CountryFilter.SelectedItem is FilterItem country && country.Name != "(Всі країни)")
-                conditions.Add($"m.Country = '{country.Name}'");
+            {
+                conditions.Add("m.Country = @country");
+                parameters.Add(new SqlParameter("@country", country.Name));
+            }
 
             if (WarehouseFilter.SelectedItem is FilterItem wh && wh.Name != "(Всі склади)")
-                conditions.Add($"sl.WarehouseName = '{wh.Name}'");
+            {
+                conditions.Add("sl.WarehouseName = @wh");
+                parameters.Add(new SqlParameter("@wh", wh.Name));
+            }
 
             if (RackFilter.SelectedItem is FilterItem rack && rack.Name != "(Всі стелажі)")
-                conditions.Add($"sl.Rack = '{rack.Name}'");
+            {
+                conditions.Add("sl.Rack = @rack");
+                parameters.Add(new SqlParameter("@rack", rack.Name));
+            }
 
             if (ShelfFilter.SelectedItem is FilterItem shelf && shelf.Name != "(Всі полиці)")
-                conditions.Add($"sl.Shelf = '{shelf.Name}'");
+            {
+                conditions.Add("sl.Shelf = @shelf");
+                parameters.Add(new SqlParameter("@shelf", shelf.Name));
+            }
 
             string where = conditions.Count > 0 ? "AND " + string.Join(" AND ", conditions) : "";
 
@@ -115,7 +138,7 @@ namespace SolarWarehouseApp.Views
                 WHERE 1=1 {where}
                 ORDER BY wi.Article";
 
-            var result = _dbService.ExecuteQuery(query);
+            var result = _dbService.ExecuteQueryWithParameters(query, parameters.ToArray());
             ItemsGrid.ItemsSource = result?.DefaultView;
         }
 

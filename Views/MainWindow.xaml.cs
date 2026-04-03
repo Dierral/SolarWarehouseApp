@@ -61,8 +61,10 @@ namespace SolarWarehouseApp.Views
             }
             else
             {
-                // Try to get user ID from DB
-                var result = _dbService.ExecuteQuery($"SELECT Id FROM AppUsers WHERE Login = '{_userLogin}'");
+                // Try to get user ID from DB using parameterized query
+                var result = _dbService.ExecuteQueryWithParameters(
+                    "SELECT Id FROM AppUsers WHERE Login = @login",
+                    new[] { new Microsoft.Data.SqlClient.SqlParameter("@login", _userLogin) });
                 if (result != null && result.Rows.Count > 0)
                 {
                     int id = (int)result.Rows[0]["Id"];

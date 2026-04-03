@@ -2,6 +2,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Data.SqlClient;
 using SolarWarehouseApp.Data;
 using SolarWarehouseApp.Services;
 
@@ -84,8 +85,8 @@ namespace SolarWarehouseApp.Views
 
         private void LoadSupplies()
         {
-            string query = BuildQuery();
-            var result = _dbService.ExecuteQuery(query);
+            var (query, parameters) = BuildQuery();
+            var result = _dbService.ExecuteQueryWithParameters(query, parameters);
             SuppliesGrid.ItemsSource = result?.DefaultView;
 
             // Tag rows with IsOutbound for styling
@@ -98,41 +99,69 @@ namespace SolarWarehouseApp.Views
             }
         }
 
-        private string BuildQuery()
+        private (string Query, SqlParameter[] Parameters) BuildQuery()
         {
             var conditions = new List<string>();
+            var parameters = new List<SqlParameter>();
 
             string article = ArticleFilter.Text.Trim();
             if (!string.IsNullOrEmpty(article))
-                conditions.Add($"wi.Article LIKE '%{article}%'");
+            {
+                conditions.Add("wi.Article LIKE @article");
+                parameters.Add(new SqlParameter("@article", "%" + article + "%"));
+            }
 
             if (TypeFilter.SelectedItem is FilterItem type && type.Id > 0)
-                conditions.Add($"s.SupplyTypeId = {type.Id}");
+            {
+                conditions.Add("s.SupplyTypeId = @supplyTypeId");
+                parameters.Add(new SqlParameter("@supplyTypeId", type.Id));
+            }
 
             if (EquipmentTypeFilter.SelectedItem is FilterItem eq && eq.Id > 0)
-                conditions.Add($"wi.EquipmentTypeId = {eq.Id}");
+            {
+                conditions.Add("wi.EquipmentTypeId = @equipmentTypeId");
+                parameters.Add(new SqlParameter("@equipmentTypeId", eq.Id));
+            }
 
             if (ManufacturerFilter.SelectedItem is FilterItem mfr && mfr.Id > 0)
-                conditions.Add($"wi.ManufacturerId = {mfr.Id}");
+            {
+                conditions.Add("wi.ManufacturerId = @manufacturerId");
+                parameters.Add(new SqlParameter("@manufacturerId", mfr.Id));
+            }
 
-            if (CountryFilter.SelectedItem is FilterItem country && country.Id == 0 && country.Name != "(Всі країни)")
-                conditions.Add($"m.Country = '{country.Name}'");
+            if (CountryFilter.SelectedItem is FilterItem country && country.Name != "(Всі країни)")
+            {
+                conditions.Add("m.Country = @country");
+                parameters.Add(new SqlParameter("@country", country.Name));
+            }
 
             if (LocationFilter.SelectedItem is FilterItem loc && loc.Id > 0)
-                conditions.Add($"wi.StorageLocationId = {loc.Id}");
+            {
+                conditions.Add("wi.StorageLocationId = @locationId");
+                parameters.Add(new SqlParameter("@locationId", loc.Id));
+            }
 
-            if (AddedByFilter.SelectedItem is FilterItem addedBy && addedBy.Id == 0 && addedBy.Name != "(Всі)")
-                conditions.Add($"s.CreatedByUserLogin = '{addedBy.Name}'");
+            if (AddedByFilter.SelectedItem is FilterItem addedBy && addedBy.Name != "(Всі)")
+            {
+                conditions.Add("s.CreatedByUserLogin = @addedBy");
+                parameters.Add(new SqlParameter("@addedBy", addedBy.Name));
+            }
 
             if (DateFrom.SelectedDate.HasValue)
-                conditions.Add($"s.SupplyDate >= '{DateFrom.SelectedDate.Value:yyyy-MM-dd}'");
+            {
+                conditions.Add("s.SupplyDate >= @dateFrom");
+                parameters.Add(new SqlParameter("@dateFrom", DateFrom.SelectedDate.Value.Date));
+            }
 
             if (DateTo.SelectedDate.HasValue)
-                conditions.Add($"s.SupplyDate <= '{DateTo.SelectedDate.Value:yyyy-MM-dd}'");
+            {
+                conditions.Add("s.SupplyDate <= @dateTo");
+                parameters.Add(new SqlParameter("@dateTo", DateTo.SelectedDate.Value.Date));
+            }
 
             string where = conditions.Count > 0 ? "AND " + string.Join(" AND ", conditions) : "";
 
-            return $@"
+            string query = $@"
                 SELECT 
                     s.Id,
                     s.SupplyDate,
@@ -154,6 +183,8 @@ namespace SolarWarehouseApp.Views
                 LEFT JOIN SupplyTypes st ON s.SupplyTypeId = st.Id
                 WHERE 1=1 {where}
                 ORDER BY s.SupplyDate DESC, s.Id DESC";
+
+            return (query, parameters.ToArray());
         }
 
         private void Filter_Changed(object sender, EventArgs e)
@@ -233,7 +264,9 @@ namespace SolarWarehouseApp.Views
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                bool ok = _dbService.ExecuteNonQuery($"DELETE FROM Supplies WHERE Id = {supplyId}");
+                bool ok = _dbService.ExecuteNonQueryWithParameters(
+                    "DELETE FROM Supplies WHERE Id = @id",
+                    new[] { new SqlParameter("@id", supplyId) });
                 if (ok)
                 {
                     _logService?.LogEvent("DELETE", "Supplies", supplyId, $"Supply ID={supplyId} deleted");

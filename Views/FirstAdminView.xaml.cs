@@ -1,4 +1,5 @@
 using System.Windows;
+using Microsoft.Data.SqlClient;
 using SolarWarehouseApp.Data;
 
 namespace SolarWarehouseApp.Views
@@ -19,7 +20,6 @@ namespace SolarWarehouseApp.Views
             string password = PasswordBox.Password;
             string confirm = ConfirmBox.Password;
 
-            // Базова валідація введених даних
             if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
                 ShowStatus("Заповніть усі поля!", isError: true);
@@ -44,9 +44,10 @@ namespace SolarWarehouseApp.Views
                 return;
             }
 
-            // Перевірка, що користувач з таким логіном ще не існує
-            string checkQuery = $"SELECT COUNT(*) as cnt FROM AppUsers WHERE Login = '{login}'";
-            var checkResult = _dbService.ExecuteQuery(checkQuery);
+            // Use parameterized query to prevent SQL injection
+            string checkQuery = "SELECT COUNT(*) as cnt FROM AppUsers WHERE Login = @login";
+            SqlParameter[] checkParams = { new SqlParameter("@login", login) };
+            var checkResult = _dbService.ExecuteQueryWithParameters(checkQuery, checkParams);
 
             if (checkResult != null && checkResult.Rows.Count > 0)
             {
@@ -60,11 +61,14 @@ namespace SolarWarehouseApp.Views
 
             try
             {
-                string insertQuery = $@"
-                    INSERT INTO AppUsers (Login, PasswordHash, Role, IsActive, UpdatedAt)
-                    VALUES ('{login}', '{password}', 'Admin', 1, GETDATE())";
+                string insertQuery = "INSERT INTO AppUsers (Login, PasswordHash, Role, IsActive, UpdatedAt) VALUES (@login, @password, 'Admin', 1, GETDATE())";
+                SqlParameter[] insertParams =
+                {
+                    new SqlParameter("@login", login),
+                    new SqlParameter("@password", password)
+                };
 
-                bool success = _dbService.ExecuteNonQuery(insertQuery);
+                bool success = _dbService.ExecuteNonQueryWithParameters(insertQuery, insertParams);
 
                 if (success)
                 {
