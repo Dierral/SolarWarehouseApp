@@ -66,14 +66,14 @@ namespace SolarWarehouseApp.Views
 
         private void LoadSupplyData(int supplyId)
         {
-            string query = $@"
+            string query = @"
                 SELECT s.Id, wi.Article, wi.EquipmentTypeId, wi.ManufacturerId, wi.StorageLocationId,
                        wi.Power, wi.Voltage, wi.Unit, s.Quantity, s.SupplyTypeId, s.SupplyDate, s.SupplierName
                 FROM Supplies s
                 INNER JOIN WarehouseItems wi ON s.WarehouseItemId = wi.Id
-                WHERE s.Id = {supplyId}";
+                WHERE s.Id = @supplyId";
 
-            var result = _dbService.ExecuteQuery(query);
+            var result = _dbService.ExecuteQueryWithParameters(query, new[] { new SqlParameter("@supplyId", supplyId) });
             if (result == null || result.Rows.Count == 0) return;
 
             var row = result.Rows[0];

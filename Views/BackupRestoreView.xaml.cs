@@ -90,9 +90,9 @@ namespace SolarWarehouseApp.Views
                 if (backupDir != null && !Directory.Exists(backupDir))
                     Directory.CreateDirectory(backupDir);
 
-                string backupQuery = $"BACKUP DATABASE [SolarWarehouseDB] TO DISK = '{backupPath}'";
+                string backupQuery = "BACKUP DATABASE [SolarWarehouseDB] TO DISK = @backupPath";
 
-                if (_dbService.ExecuteNonQuery(backupQuery))
+                if (_dbService.ExecuteNonQueryWithParameters(backupQuery, new[] { new SqlParameter("@backupPath", backupPath) }))
                 {
                     _logService?.LogEvent("BACKUP_CREATE", null, null, backupPath);
                     MessageBox.Show($"Резервну копію успішно створено!\n\n{backupPath}", "Успіх",
