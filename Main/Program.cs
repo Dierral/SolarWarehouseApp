@@ -1,5 +1,7 @@
 using SolarWarehouseApp.Data;
 using SolarWarehouseApp.Helpers;
+using SolarWarehouseApp.Views;
+using System.Windows;
 
 namespace SolarWarehouseApp.Main
 {
@@ -8,8 +10,6 @@ namespace SolarWarehouseApp.Main
         [STAThread]
         static void Main()
         {
-            ApplicationConfiguration.Initialize();
-
             // Завантаження налаштувань підключення та створення сервісу доступу до БД
             var config = ConfigHelper.LoadConfig();
             string connectionString = ConfigHelper.BuildConnectionString(config);
@@ -22,19 +22,19 @@ namespace SolarWarehouseApp.Main
                 ? int.Parse(result.Rows[0]["cnt"].ToString() ?? "0")
                 : 0;
 
+            var app = new App();
+
             if (userCount == 0)
             {
                 // Якщо користувачів ще немає – відкриваємо форму створення першого адміністратора
-                Application.Run(new FirstAdminForm(dbService));
+                var firstAdminView = new FirstAdminView(dbService);
+                app.Run(firstAdminView);
             }
             else
             {
-                // Інакше показуємо форму логіну, а після успішного входу – головну форму програми
-                LoginForm loginForm = new LoginForm();
-                if (loginForm.ShowDialog() == DialogResult.OK)
-                {
-                    Application.Run(new MainForm(dbService, loginForm.LoggedInUserLogin, loginForm.LoggedInUserRole));
-                }
+                // Показуємо форму логіну
+                var loginView = new LoginView(dbService);
+                app.Run(loginView);
             }
         }
     }

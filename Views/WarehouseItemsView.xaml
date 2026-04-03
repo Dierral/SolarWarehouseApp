@@ -1,0 +1,105 @@
+<Page x:Class="SolarWarehouseApp.Views.WarehouseItemsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="{DynamicResource MaterialDesign.Brush.Background}"
+      FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Filter panel -->
+        <materialDesign:Card Grid.Row="0" Margin="12,12,12,6" UniformCornerRadius="10"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <WrapPanel Margin="16,12">
+                <TextBox x:Name="ArticleFilter"
+                         materialDesign:HintAssist.Hint="Артикул"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Width="150" Margin="0,0,8,4" FontSize="13"
+                         TextChanged="Filter_Changed"/>
+
+                <ComboBox x:Name="EquipmentFilter"
+                          materialDesign:HintAssist.Hint="Тип обладнання"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Width="180" Margin="0,0,8,4" FontSize="13"
+                          SelectionChanged="Filter_Changed"/>
+
+                <ComboBox x:Name="ManufacturerFilter"
+                          materialDesign:HintAssist.Hint="Виробник"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Width="160" Margin="0,0,8,4" FontSize="13"
+                          SelectionChanged="Filter_Changed"/>
+
+                <ComboBox x:Name="CountryFilter"
+                          materialDesign:HintAssist.Hint="Країна"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Width="130" Margin="0,0,8,4" FontSize="13"
+                          SelectionChanged="Filter_Changed"/>
+
+                <ComboBox x:Name="WarehouseFilter"
+                          materialDesign:HintAssist.Hint="Склад"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Width="140" Margin="0,0,8,4" FontSize="13"
+                          SelectionChanged="Filter_Changed"/>
+
+                <ComboBox x:Name="RackFilter"
+                          materialDesign:HintAssist.Hint="Стелаж"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Width="120" Margin="0,0,8,4" FontSize="13"
+                          SelectionChanged="Filter_Changed"/>
+
+                <ComboBox x:Name="ShelfFilter"
+                          materialDesign:HintAssist.Hint="Полиця"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Width="110" Margin="0,0,8,4" FontSize="13"
+                          SelectionChanged="Filter_Changed"/>
+
+                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                        Foreground="#9E9E9E" Click="ResetFilters_Click" Margin="0,0,0,4">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FilterRemove" VerticalAlignment="Center"/>
+                        <TextBlock Text="Скинути" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+        </materialDesign:Card>
+
+        <!-- DataGrid -->
+        <materialDesign:Card Grid.Row="1" Margin="12,0,12,12" UniformCornerRadius="10"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <DataGrid x:Name="ItemsGrid"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      SelectionMode="Single"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      RowHeaderWidth="0"
+                      Style="{StaticResource MaterialDesignDataGrid}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="60"/>
+                    <DataGridTextColumn Header="Артикул" Binding="{Binding Article}" Width="130"/>
+                    <DataGridTextColumn Header="Тип обладнання" Binding="{Binding EquipmentType}" Width="*"/>
+                    <DataGridTextColumn Header="Виробник" Binding="{Binding Manufacturer}" Width="140"/>
+                    <DataGridTextColumn Header="Країна" Binding="{Binding Country}" Width="90"/>
+                    <DataGridTextColumn Header="Потужність" Binding="{Binding Power, StringFormat={}{0:0.##}}" Width="100"/>
+                    <DataGridTextColumn Header="Напруга" Binding="{Binding Voltage, StringFormat={}{0:0.##}}" Width="90"/>
+                    <DataGridTextColumn Header="Кількість" Binding="{Binding Quantity}" Width="90">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Од." Binding="{Binding Unit}" Width="55"/>
+                    <DataGridTextColumn Header="Склад" Binding="{Binding WarehouseName}" Width="100"/>
+                    <DataGridTextColumn Header="Стелаж" Binding="{Binding Rack}" Width="80"/>
+                    <DataGridTextColumn Header="Полиця" Binding="{Binding Shelf}" Width="80"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+    </Grid>
+</Page>

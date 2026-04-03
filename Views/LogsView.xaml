@@ -1,0 +1,90 @@
+<Page x:Class="SolarWarehouseApp.Views.LogsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="{DynamicResource MaterialDesign.Brush.Background}"
+      FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Filter panel -->
+        <materialDesign:Card Grid.Row="0" Margin="12,12,12,6" UniformCornerRadius="10"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <WrapPanel Margin="16,12">
+                <ComboBox x:Name="UserFilter"
+                          materialDesign:HintAssist.Hint="Користувач"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Width="180" Margin="0,0,8,4" FontSize="13"
+                          SelectionChanged="Filter_Changed"/>
+
+                <TextBlock Text="Від:" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="13" Foreground="#9E9E9E"/>
+                <DatePicker x:Name="DateFrom"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                            Width="140" Margin="0,0,8,4" FontSize="13"
+                            SelectedDateChanged="Filter_Changed"/>
+
+                <TextBlock Text="До:" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="13" Foreground="#9E9E9E"/>
+                <DatePicker x:Name="DateTo"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                            Width="140" Margin="0,0,12,4" FontSize="13"
+                            SelectedDateChanged="Filter_Changed"/>
+
+                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                        Foreground="#9E9E9E" Click="ResetFilter_Click" Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FilterRemove" VerticalAlignment="Center"/>
+                        <TextBlock Text="Скинути" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,0,8,0"/>
+
+                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Click="ViewLog_Click" Margin="0,0,8,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Eye" VerticalAlignment="Center"/>
+                        <TextBlock Text="Переглянути" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Foreground="#EF5350" BorderBrush="#EF5350"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Click="DeleteLog_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                        <TextBlock Text="Видалити" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+        </materialDesign:Card>
+
+        <!-- DataGrid -->
+        <materialDesign:Card Grid.Row="1" Margin="12,0,12,12" UniformCornerRadius="10"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <DataGrid x:Name="LogsGrid"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      SelectionMode="Extended"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      RowHeaderWidth="0"
+                      Style="{StaticResource MaterialDesignDataGrid}"
+                      MouseDoubleClick="LogsGrid_DoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Binding="{Binding LogId}" Width="70"/>
+                    <DataGridTextColumn Header="Користувач" Binding="{Binding UserLogin}" Width="140"/>
+                    <DataGridTextColumn Header="Файл логу" Binding="{Binding LogFileName}" Width="*"/>
+                    <DataGridTextColumn Header="Створено" Binding="{Binding CreatedAt, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" Width="160"/>
+                    <DataGridTextColumn Header="Закрито" Binding="{Binding ClosedAt, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" Width="160"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+    </Grid>
+</Page>

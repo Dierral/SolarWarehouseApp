@@ -4,12 +4,30 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SolarWarehouseApp</RootNamespace>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+    <PackageReference Include="MaterialDesignColors" Version="3.1.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
+  </ItemGroup>
+
+  <!-- Exclude legacy WinForms files that have been replaced by WPF views -->
+  <ItemGroup>
+    <Compile Remove="Main\MainForm.cs" />
+    <Compile Remove="Main\LoginForm.cs" />
+    <Compile Remove="Main\FirstAdminForm.cs" />
+    <Compile Remove="Main\Program.cs" />
+    <Compile Remove="Forms\AddEditSupplyForm.cs" />
+    <Compile Remove="Forms\AppUserForm.cs" />
+    <Compile Remove="Forms\EquipmentTypeForm.cs" />
+    <Compile Remove="Forms\InputDialog.cs" />
+    <Compile Remove="Forms\ManufacturerForm.cs" />
+    <Compile Remove="Forms\StorageLocationForm.cs" />
   </ItemGroup>
 
 </Project>

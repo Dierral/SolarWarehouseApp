@@ -1,0 +1,106 @@
+<Page x:Class="SolarWarehouseApp.Views.BackupRestoreView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="{DynamicResource MaterialDesign.Brush.Background}"
+      FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Action buttons row -->
+        <materialDesign:Card Grid.Row="0" UniformCornerRadius="10" Margin="0,0,0,8"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <WrapPanel Margin="16,12">
+                <Button Background="#66BB6A" Foreground="White"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Click="CreateBackup_Click" Margin="0,0,8,4">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="DatabasePlus" VerticalAlignment="Center"/>
+                        <TextBlock Text="Резервна копія" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Background="#42A5F5" Foreground="White"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Click="RestoreBackup_Click" Margin="0,0,8,4">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="DatabaseSync" VerticalAlignment="Center"/>
+                        <TextBlock Text="Відновити" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Click="OpenFolder_Click" Margin="0,0,8,4">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FolderOpen" VerticalAlignment="Center"/>
+                        <TextBlock Text="Відкрити папку" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                        Foreground="#9E9E9E" Click="Refresh_Click" Margin="0,0,0,4">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Refresh" VerticalAlignment="Center"/>
+                        <TextBlock Text="Оновити" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+        </materialDesign:Card>
+
+        <!-- Auto-backup settings -->
+        <materialDesign:Card Grid.Row="1" UniformCornerRadius="10" Margin="0,0,0,8"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <StackPanel Orientation="Horizontal" Margin="16,12" VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="ClockOutline" Width="20" Height="20"
+                                         Foreground="#FF6D00" VerticalAlignment="Center"/>
+                <TextBlock Text="Авто-бекап кожні:" FontSize="13" VerticalAlignment="Center" Margin="8,0,8,0"/>
+                <TextBox x:Name="IntervalBox"
+                         materialDesign:HintAssist.Hint="хвилин"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Width="80" FontSize="13"/>
+                <TextBlock Text="хвилин" FontSize="13" VerticalAlignment="Center" Margin="8,0,16,0"/>
+                <Button Background="#FF6D00" Foreground="White"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Click="SaveInterval_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center"/>
+                        <TextBlock Text="Зберегти" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <TextBlock x:Name="AutoBackupStatus" FontSize="12" Foreground="#66BB6A"
+                           VerticalAlignment="Center" Margin="16,0,0,0"/>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <!-- Backup list -->
+        <materialDesign:Card Grid.Row="2" UniformCornerRadius="10"
+                             materialDesign:ElevationAssist.Elevation="Dp2">
+            <DataGrid x:Name="BackupGrid"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      SelectionMode="Single"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      RowHeaderWidth="0"
+                      Style="{StaticResource MaterialDesignDataGrid}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Назва файлу" Binding="{Binding FileName}" Width="*"/>
+                    <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="60"/>
+                    <DataGridTextColumn Header="Розмір" Binding="{Binding Size}" Width="100"/>
+                    <DataGridTextColumn Header="Дата створення" Binding="{Binding CreatedAt}" Width="160"/>
+                    <DataGridTextColumn Header="Шлях" Binding="{Binding FullPath}" Width="2*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+    </Grid>
+</Page>

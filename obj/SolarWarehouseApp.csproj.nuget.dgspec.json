@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Diplom\\SolarWarehouseApp\\SolarWarehouseApp.csproj": {}
+    "/home/runner/work/SolarWarehouseApp/SolarWarehouseApp/SolarWarehouseApp.csproj": {}
   },
   "projects": {
-    "D:\\Diplom\\SolarWarehouseApp\\SolarWarehouseApp.csproj": {
+    "/home/runner/work/SolarWarehouseApp/SolarWarehouseApp/SolarWarehouseApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Diplom\\SolarWarehouseApp\\SolarWarehouseApp.csproj",
+        "projectUniqueName": "/home/runner/work/SolarWarehouseApp/SolarWarehouseApp/SolarWarehouseApp.csproj",
         "projectName": "SolarWarehouseApp",
-        "projectPath": "D:\\Diplom\\SolarWarehouseApp\\SolarWarehouseApp.csproj",
-        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "D:\\Diplom\\SolarWarehouseApp\\obj\\",
+        "projectPath": "/home/runner/work/SolarWarehouseApp/SolarWarehouseApp/SolarWarehouseApp.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/SolarWarehouseApp/SolarWarehouseApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0-windows"
@@ -37,21 +37,24 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
+            "MaterialDesignColors": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
               "version": "[6.1.3, )"
-            },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.22, )",
-              "autoReferenced": true
             }
           },
           "imports": [
@@ -67,32 +70,19 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.22, 8.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.22, 8.0.22]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[8.0.22, 8.0.22]"
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.25, 8.0.25]"
             }
           ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             },
-            "Microsoft.WindowsDesktop.App.WindowsForms": {
+            "Microsoft.WindowsDesktop.App.WPF": {
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
